@@ -14,7 +14,8 @@ html(lang="en")
                     video#myFace(autoplay, playsinline, width = "400", height="400")
                     button#mute MUTE
                     button#camera Turn Camera Off
-
+                    select#cameras
+                        option(value="device") Face Camera
 
             script(src="/socket.io/socket.io.js")
             script(src="/public/js/app.js")
