@@ -15,10 +15,90 @@ let cameraOff = false;
 let roomName;
 let myPeerConnection;
 
+// 채팅 기능
+const welcome = document.getElementById('welcome');
+const room = document.getElementById('room');
+const chatForm = welcome.querySelector('form');
+room.hidden = true;
+
+let chatRoomName;
+
+function addMessage(message){
+    const ul = room.querySelector('ul');
+    const li = document.createElement("li");
+    li.innerText = message;
+    ul.appendChild(li);
+}
+
+function handleMessageSubmit(event){
+    event.preventDefault();
+    const input = room.querySelector('#msg input');
+    const value = input.value;
+    socket.emit("new_message", input.value, chatRoomName, () => {
+        addMessage(`You: ${value}`);
+    });
+    input.value = "";
+}
+
+function handleNicknameSubmit(event){
+    event.preventDefault();
+    const input = room.querySelector('#name input');
+    const value = input.value;
+    socket.emit("nickname", input.value);
+}
+
+function showRoom(){
+    welcome.hidden = true;
+    room.hidden = false;
+    const h3 = room.querySelector('h3');
+    h3.innerText = `Room ${chatRoomName}`;
+    const msgForm = room.querySelector('#msg');
+    const nameForm = room.querySelector('#name');
+    msgForm.addEventListener('submit', handleMessageSubmit);
+    nameForm.addEventListener('submit', handleNicknameSubmit);
+}
+
+function handleChatRoomSubmit(event) {
+    event.preventDefault();
+    const input = chatForm.querySelector("input");
+    socket.emit("enter_room", input.value, showRoom );
+    chatRoomName = input.value;
+    input.value="";
+}
+
+chatForm.addEventListener("submit", handleChatRoomSubmit);
+
+socket.on("welcome", (user, newCount) => {
+    const h3 = room.querySelector('h3');
+    h3.innerText = `Room ${chatRoomName} (${newCount})`;
+    addMessage(`${user} arrived`);
+});
+
+socket.on("bye", (left, newCount) => {
+    const h3 = room.querySelector('h3');
+    h3.innerText = `Room ${chatRoomName} (${newCount})`;
+    addMessage(`${left} left ㅠㅠ`);
+});
+
+socket.on("new_message", addMessage);
+
+socket.on("room_change", (rooms) => {
+    const roomList = welcome.querySelector('ul');
+    roomList.innerHTML = "";
+    if(rooms.length == 0){
+        return;
+    }
+    rooms.forEach(room => {
+        const li = document.createElement("li");
+        li.innerText = room;
+        roomList.append(li);
+    });
+});
+
+// 화상 회의 기능
 async function getCameras(){
     try{
         const devices = await navigator.mediaDevices.enumerateDevices();
-        // console.log(devices);
         const cameras = devices.filter((device) => device.kind === "videoinput");
         const currentCamera = myStream.getVideoTracks()[0];
         cameras.forEach(camera => {
@@ -30,13 +110,13 @@ async function getCameras(){
             }
             camerasSelect.appendChild(option);
         });
-    }catch(e){
+    } catch(e){
         console.log(e);
     }
 }
 
 async function getMedia(deviceId){
-    const initialConstrains = {
+    const initialConstraints = {
         audio: true,
         video: {facingMode: "user"},
     };
@@ -46,7 +126,7 @@ async function getMedia(deviceId){
     };
     try{
         myStream = await navigator.mediaDevices.getUserMedia(
-            deviceId ? cameraConstraints : initialConstrains
+            deviceId ? cameraConstraints : initialConstraints
         );
         myFace.srcObject = myStream;
         if(!deviceId){
@@ -64,7 +144,7 @@ function handleMuteClick(){
     if(!muted){
         muteBtn.innerText = "소리켜기";
         muted = true;
-    }else{
+    } else {
         muteBtn.innerText = "음소거";
         muted = false;
     }
@@ -76,7 +156,7 @@ function handleCameraClick(){
     if(cameraOff){
         cameraBtn.innerText = "카메라 끄기";
         cameraOff = false;
-    }else{
+    } else {
         cameraBtn.innerText = "카메라 켜기";
         cameraOff = true;
     }
@@ -97,10 +177,8 @@ muteBtn.addEventListener("click", handleMuteClick);
 cameraBtn.addEventListener("click", handleCameraClick);
 camerasSelect.addEventListener("input", handleCameraChange);
 
-//Welcome Form choose
-
-const welcome = document.getElementById("welcome");
-const welcomeForm = welcome.querySelector("form");
+// Welcome Form
+const welcomeForm = welcome.querySelector("#callForm");
 
 async function initCall(){
     welcome.hidden = true;
@@ -115,12 +193,12 @@ async function handleWelcomeSubmit(event){
     await initCall();
     socket.emit("join_room", input.value);
     roomName = input.value;
-    input.value="";
+    input.value = "";
 }
 
 welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
-//Socket Code
+// Socket Code
 socket.on("welcome", async () => {
     const offer = await myPeerConnection.createOffer();
     myPeerConnection.setLocalDescription(offer);
@@ -140,9 +218,9 @@ socket.on("answer", answer => {
 
 socket.on("ice", ice => {
     myPeerConnection.addIceCandidate(ice);
-})
+});
 
-//RTC Code
+// RTC Code
 function makeConnection(){
     myPeerConnection = new RTCPeerConnection();
     myPeerConnection.addEventListener("icecandidate", handleIce);
