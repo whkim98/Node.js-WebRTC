@@ -12,6 +12,10 @@ app.use("/public", express.static(__dirname + "/public"));
 app.get("/", (_, res) => res.render("home"));
 app.get("/*", (_, res) => res.redirect("/"));
 
+app.get("/", (req, res) => {
+    res.render("home");
+});
+
 // HTTPS 설정
 const httpsOptions = {
     key: fs.readFileSync(__dirname + "/key.pem"),   // key.pem 파일 경로
@@ -39,6 +43,6 @@ wsServer.on("connection", (socket) => {
     });
 });
 
-const handleListen = () => console.log(`Listening at https://localhost:3000`);
+const handleListen = () => console.log(`Listening 서버 https://192.168.0.18:3000`);
 
-httpsServer.listen(3000, "192.168.0.18", handleListen);
+httpsServer.listen(3000,"192.168.0.18", handleListen);

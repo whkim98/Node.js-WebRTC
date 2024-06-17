@@ -30,7 +30,6 @@ async function getCameras(){
             }
             camerasSelect.appendChild(option);
         });
-        console.log(cameras);
     }catch(e){
         console.log(e);
     }
@@ -125,18 +124,14 @@ welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 socket.on("welcome", async () => {
     const offer = await myPeerConnection.createOffer();
     myPeerConnection.setLocalDescription(offer);
-    console.log("send offer");
     socket.emit("offer", offer, roomName);
 });
 
 socket.on("offer", async (offer) => {
-    console.log("receive offer");
     myPeerConnection.setRemoteDescription(offer);
     const answer = await myPeerConnection.createAnswer();
-    console.log("answer:" + answer);
     myPeerConnection.setLocalDescription(answer);
     socket.emit("answer", answer, roomName);
-    console.log("send the answer");
 });
 
 socket.on("answer", answer => {
@@ -144,7 +139,6 @@ socket.on("answer", answer => {
 });
 
 socket.on("ice", ice => {
-    console.log("receive candidate");
     myPeerConnection.addIceCandidate(ice);
 })
 
@@ -157,7 +151,6 @@ function makeConnection(){
 }
 
 function handleIce(data){
-    console.log("send candidate")
     socket.emit("ice", data.candidate, roomName);
 }
 
