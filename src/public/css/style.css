@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#callRoomContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#call, #room {
+    flex: 1;
+    padding: 10px;
+}
+
+#myStream, #peerFace {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#myStream video, #peerFace video {
+    margin-bottom: 10px;
+}
+
+#room ul {
+    list-style: none;
+    padding: 0;
+}
+
+#room form {
+    display: flex;
+    flex-direction: column;
+}
+
+#room form input {
+    margin-bottom: 5px;
+}

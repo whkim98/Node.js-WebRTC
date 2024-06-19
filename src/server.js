@@ -17,7 +17,7 @@ app.get("/*", (_, res) => res.redirect("/"));
 
 // HTTPS 설정
 const httpsOptions = {
-    key: fs.readFileSync(__dirname + "/key.pem"),   // key.pem 파일 경로
+    key: fs.readFileSync(__dirname + "/key.pem"), // key.pem 파일 경로
     cert: fs.readFileSync(__dirname + "/cert.pem"), // cert.pem 파일 경로
 };
 
@@ -31,23 +31,22 @@ const wsServer = new Server(httpsServer, {
     }
 });
 
-
-function publicRooms(){
+function publicRooms() {
     const {
         sockets: {
-            adapter: {sids, rooms},
+            adapter: { sids, rooms },
         },
     } = wsServer;
     const publicRooms = [];
     rooms.forEach((_, key) => {
-        if(sids.get(key) === undefined){
+        if (sids.get(key) === undefined) {
             publicRooms.push(key);
         }
     });
     return publicRooms;
 }
 
-function countRoom(roomName){
+function countRoom(roomName) {
     return wsServer.sockets.adapter.rooms.get(roomName)?.size;
 }
 
@@ -94,11 +93,11 @@ wsServer.on("connection", (socket) => {
     });
 });
 
-const handleListen = () => console.log(`Listening 서버 https://192.168.0.18:3000`);
+const handleListen = () => console.log(`Listening 서버 https://192.168.0.18:${PORT}`);
 
-httpsServer.listen(3000, "192.168.0.18", () => {
+httpsServer.listen(3000, "192.168.0.22", () => {
     console.log(`HTTPS Server is running on https://192.168.0.18:${PORT}`);
 
     // 서버 시작과 동시에 웹페이지 열기
-    open(`https://192.168.0.18:${PORT}`);
+    open(`https://192.168.0.22:${PORT}`);
 });

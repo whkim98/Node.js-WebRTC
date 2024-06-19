@@ -4,37 +4,36 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Combined App
+        title 화상진료실
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        link(rel="stylesheet", href="/public/css/style.css")
     body
         header
-            h1 Combined App
+            h1 낭만닥터임ㅋ
         main
             div#welcome
                 form#callForm
                     input(placeholder="방이름", required, type="text")
                     button 입장하기
-                h4 Open Rooms:
-                ul
-                form
-                    input(placeholder="room name", required, type="text")
-                    button Enter Room
-            div#call
-                div#myStream
-                    video#myFace(autoplay, playsinline, width = "400", height="400")
-                    button#mute 음소거
+            div#callRoomContainer
+                div#call
+                    div#myStream
+                        video#myFace(autoplay, playsinline, width="400", height="400")
+                        button#mute 음소거
+                        br
+                        button#camera 카메라 끄기
+                        select#cameras
+                    video#peerFace(autoplay, playsinline, width="400", height="400")
+                    button#leaveBtn 방 나가기
+                div#room
+                    h3
+                    ul
+                    form#name
+                        input(placeholder="이름을 입력해 주세요", required, type="text")
+                        button 저장하기
                     br
-                    button#camera 카메라 끄기
-                    select#cameras
-                video#peerFace(autoplay, playsinline, width = "400", height="400")
-            div#room
-                h3
-                ul
-                form#name
-                    input(placeholder="nickname", required, type="text")
-                    button Save
-                form#msg
-                    input(placeholder="message", required, type="text")
-                    button Send
+                    form#msg
+                        input(placeholder="message", required, type="text")
+                        button 보내기
         script(src="/socket.io/socket.io.js")
         script(src="/public/js/app.js")
