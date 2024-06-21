@@ -24,13 +24,15 @@ room.hidden = true;
 
 let chatRoomName;
 
-function addMessage(message){
-    const ul = room.querySelector('.chat-list');
+function addMessage(message) {
+    const box = document.querySelector('#room .chat-container');
+    const ul = document.querySelector('#room .chat-list');
     const li = document.createElement("li");
     li.innerText = message;
     ul.appendChild(li);
-    ul.scrollTop = ul.scrollHeight; // 새로운 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
+    box.scrollTo(0, ul.scrollHeight);
 }
+
 
 function handleMessageSubmit(event){
     event.preventDefault();
