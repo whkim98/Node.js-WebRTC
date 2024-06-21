@@ -1,7 +1,9 @@
+/* 기본 스타일 설정 */
 body {
     font-family: Arial, sans-serif;
 }
 
+/* 화상 진료실 레이아웃 설정 */
 #callRoomContainer {
     display: flex;
     justify-content: space-between;
@@ -13,6 +15,7 @@ body {
     padding: 10px;
 }
 
+/* 내 스트림과 상대방 스트림의 레이아웃 설정 */
 #myStream, #peerFace {
     display: flex;
     flex-direction: column;
@@ -23,6 +26,7 @@ body {
     margin-bottom: 10px;
 }
 
+/* 채팅 기록 스타일 설정 */
 #room ul {
     list-style: none;
     padding: 0;
@@ -35,4 +39,28 @@ body {
 
 #room form input {
     margin-bottom: 5px;
+}
+
+/* 채팅 기록에 스크롤바 추가 */
+.chat-container {
+    max-height: 200px; /* 원하는 높이 설정 */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.chat-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* 버튼 스타일 */
+button {
+    margin-top: 5px;
 }

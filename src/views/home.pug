@@ -2,7 +2,7 @@ doctype html
 html(lang="en")
     head
         meta(charset="UTF-8")
-        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title 화상진료실
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
@@ -27,7 +27,8 @@ html(lang="en")
                     button#leaveBtn 방 나가기
                 div#room
                     h3
-                    ul
+                    div.chat-container
+                        ul.chat-list
                     form#name
                         input(placeholder="이름을 입력해 주세요", required, type="text")
                         button 저장하기
