@@ -95,9 +95,9 @@ wsServer.on("connection", (socket) => {
 
 const handleListen = () => console.log(`Listening 서버 https://192.168.0.9:${PORT}`);
 
-httpsServer.listen(3000, "192.168.0.9", () => {
+httpsServer.listen(3000, "192.168.0.13", () => {
     console.log(`HTTPS Server is running on https://192.168.0.9:${PORT}`);
 
     // 서버 시작과 동시에 웹페이지 열기
-    open(`https://192.168.0.9:${PORT}`);
+    open(`https://192.168.0.13:${PORT}`);
 });

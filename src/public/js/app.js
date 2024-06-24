@@ -8,7 +8,10 @@ const leaveBtn = document.getElementById("leaveBtn");
 
 const call = document.getElementById("call");
 
+const box = document.querySelector('#room .chat-container');
+
 call.hidden = true;
+box.hidden = true;
 
 let myStream;
 let muted = false;
@@ -25,7 +28,8 @@ room.hidden = true;
 let chatRoomName;
 
 function addMessage(message) {
-    const box = document.querySelector('#room .chat-container');
+    box.hidden = false;
+    // const box = document.querySelector('#room .chat-container');
     const ul = document.querySelector('#room .chat-list');
     const li = document.createElement("li");
     li.innerText = message;
