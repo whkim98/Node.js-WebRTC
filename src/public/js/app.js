@@ -8,10 +8,17 @@ const leaveBtn = document.getElementById("leaveBtn");
 
 const call = document.getElementById("call");
 
+
+
 const box = document.querySelector('#room .chat-container');
 
 call.hidden = true;
 box.hidden = true;
+
+muteBtn.hidden = true;
+cameraBtn.hidden = true;
+camerasSelect.hidden = true;
+leaveBtn.hidden = true;
 
 let myStream;
 let muted = false;
@@ -60,6 +67,10 @@ function handleNicknameSubmit(event){
 function showRoom(){
     welcome.hidden = true;
     room.hidden = false;
+    muteBtn.hidden = false;
+    cameraBtn.hidden = false;
+    camerasSelect.hidden = false;
+    leaveBtn.hidden = false;
     const h3 = room.querySelector('h3');
     h3.innerText = `방이름: ${chatRoomName}`;
     const msgForm = room.querySelector('#msg');
@@ -198,7 +209,7 @@ async function initCall(roomName){
 
     // 방 이름 설정
     socket.emit("join_room", roomName);
-    roomName = roomName; // 여기서 roomName을 전달하도록 수정
+    roomName = roomName;
 }
 
 async function handleWelcomeSubmit(event){

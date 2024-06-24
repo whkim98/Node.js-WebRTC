@@ -10,20 +10,46 @@ body {
     align-items: flex-start;
 }
 
-#call, #room {
+#call {
     flex: 1;
-    padding: 10px;
-}
-
-/* 내 스트림과 상대방 스트림의 레이아웃 설정 */
-#myStream, #peerFace {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 10px;
 }
 
-#myStream video, #peerFace video {
+#myStreamContainer {
+    position: relative;
+    width: 150px;
+    height: 150px;
     margin-bottom: 10px;
+}
+
+#myStreamContainer video {
+    width: 100%;
+    height: 100%;
+}
+
+#peerStreamContainer {
+    width: 350px;
+    height: 350px;
+    margin-bottom: 3px;
+}
+
+#peerStreamContainer video {
+    width: 100%;
+    height: 100%;
+}
+
+button,
+select {
+    display: inline-block;
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-right: 5px; /* 버튼 간 간격 조절 */
+    font-size: 15px;
 }
 
 /* 채팅 기록 스타일 설정 */
@@ -60,10 +86,15 @@ body {
     border-bottom: 1px solid #eee;
 }
 
-/* 버튼 스타일 */
-button {
-    margin-top: 5px;
-    background-color: orange;
-    color: white;
-    border: none;
+header {
+    margin-bottom: 5px; /* 간격을 좁히기 위해 조정 */
+}
+
+header h1 {
+    margin-bottom: 5px; /* h1 요소의 마진을 줄여서 간격을 좁힘 */
+}
+
+main {
+    margin-top: 0; /* main 요소의 상단 마진을 없앰 */
+    padding-top: 0; /* main 요소의 상단 패딩을 없앰 */
 }

@@ -17,14 +17,13 @@ html(lang="en")
                     button 입장하기
             div#callRoomContainer
                 div#call
-                    div#myStream
-                        video#myFace(autoplay, playsinline, width="400", height="400")
-                        button#mute 음소거
-                        br
-                        button#camera 카메라 끄기
-                        select#cameras
-                    video#peerFace(autoplay, playsinline, width="400", height="400")
-                    button#leaveBtn 방 나가기
+                    div#myStreamContainer
+                        video#myFace(autoplay, playsinline)
+                    select#cameras
+                    button#mute 음소거
+                    button#camera 카메라 끄기
+                    div#peerStreamContainer
+                        video#peerFace(autoplay, playsinline)
                 div#room
                     h3
                     div.chat-container
@@ -36,5 +35,7 @@ html(lang="en")
                     form#msg
                         input(placeholder="message", required, type="text")
                         button 보내기
+
+                    button#leaveBtn 방 나가기
         script(src="/socket.io/socket.io.js")
         script(src="/public/js/app.js")
