@@ -63,4 +63,7 @@ body {
 /* 버튼 스타일 */
 button {
     margin-top: 5px;
+    background-color: orange;
+    color: white;
+    border: none;
 }
