@@ -101,7 +101,7 @@ socket.on("bye", (left, newCount) => {
     addMessage(`${left}님이 나갔습니다.`);
 });
 
-socket.on("new_message", addMessage);
+// socket.on("new_message", addMessage);
 
 socket.on("room_change", (rooms) => {
     const roomList = welcome.querySelector('ul');
