@@ -1,7 +1,5 @@
 import express from "express";
 import http from "http";
-import https from "https";
-import fs from "fs";
 import { Server } from "socket.io";
 const open = require("open");
 
@@ -15,21 +13,9 @@ app.use("/public", express.static(__dirname + "/public"));
 app.get("/", (_, res) => res.render("home"));
 app.get("/*", (_, res) => res.redirect("/"));
 
-// HTTPS 설정
-const httpsOptions = {
-    key: fs.readFileSync(__dirname + "/key.pem"), // key.pem 파일 경로
-    cert: fs.readFileSync(__dirname + "/cert.pem"), // cert.pem 파일 경로
-};
-
 const httpServer = http.createServer(app);
-const httpsServer = https.createServer(httpsOptions, app);
 
-const wsServer = new Server(httpsServer, {
-    cors: {
-        origin: ["https://admin.socket.io"],
-        credentials: true
-    }
-});
+const wsServer = new Server(httpServer); // HTTPS 대신 HTTP 서버 사용
 
 function publicRooms() {
     const {
@@ -56,7 +42,6 @@ wsServer.on("connection", (socket) => {
         console.log(`socket event: ${event}`);
     });
 
-    // 채팅 기능
     socket.on("enter_room", (roomName, done) => {
         socket.join(roomName);
         done();
@@ -77,7 +62,6 @@ wsServer.on("connection", (socket) => {
     });
     socket.on("nickname", (nickname) => (socket["nickname"] = nickname));
 
-    // 화상 회의 기능
     socket.on("join_room", (roomName) => {
         socket.join(roomName);
         socket.to(roomName).emit("welcome");
@@ -93,11 +77,7 @@ wsServer.on("connection", (socket) => {
     });
 });
 
-const handleListen = () => console.log(`Listening 서버 https://192.168.0.9:${PORT}`);
-
-httpsServer.listen(3000, "192.168.0.9", () => {
-    console.log(`HTTPS Server is running on https://192.168.0.9:${PORT}`);
-
-    // 서버 시작과 동시에 웹페이지 열기
-    open(`https://192.168.0.9:${PORT}`);
+httpServer.listen(PORT, () => {
+    console.log(`HTTP 서버가 http://localhost:${PORT} 에서 실행 중입니다.`);
+    // open(`http://localhost:${PORT}`);
 });
